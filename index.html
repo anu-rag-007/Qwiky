@@ -656,6 +656,103 @@ body.dark .pin-box{background:var(--surface2);border-color:var(--bdr)}
 
 @keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
 
+/* ══════════════════════════════════
+   GOOGLE PLACES STYLES
+══════════════════════════════════ */
+/* Google-sourced marker — grey pill with Google G */
+.gp-marker{
+  display:flex;flex-direction:column;align-items:center;
+  animation:pinDrop .3s cubic-bezier(.22,1,.36,1) both;
+}
+.gp-pill{
+  display:flex;align-items:center;gap:5px;
+  background:#fff;color:var(--text);
+  font-family:var(--font);font-size:11px;font-weight:600;
+  padding:4px 9px 4px 6px;border-radius:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.28);
+  border:1.5px solid #dadce0;
+  white-space:nowrap;cursor:pointer;
+  transition:transform .15s,box-shadow .15s;
+}
+.gp-pill:hover{transform:scale(1.08);box-shadow:0 4px 16px rgba(0,0,0,0.35);}
+.gp-g{
+  width:16px;height:16px;border-radius:50%;
+  background:linear-gradient(135deg,#4285f4 0%,#4285f4 45%,#34a853 45%,#34a853 55%,#fbbc04 55%,#fbbc04 75%,#ea4335 75%);
+  flex-shrink:0;
+}
+.gp-tail{width:2px;height:5px;background:#9aa0a6;margin-top:-1px;}
+.gp-dot{width:5px;height:5px;border-radius:50%;background:#9aa0a6;border:1.5px solid #fff;margin-top:-1px;}
+
+/* Google Places sidebar card */
+.gp-card{
+  padding:14px 16px;border-bottom:1px solid var(--bdr);
+  cursor:pointer;transition:background .15s;
+  display:flex;gap:12px;align-items:flex-start;
+  position:relative;
+}
+.gp-card:hover{background:var(--surface2)}
+.gp-card-badge{
+  position:absolute;top:14px;right:14px;
+  font-size:9px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  background:#f1f3f4;color:#5f6368;padding:2px 7px;border-radius:10px;
+  border:1px solid #dadce0;
+}
+.gp-thumb{
+  width:72px;height:60px;border-radius:6px;overflow:hidden;flex-shrink:0;
+  background:#f1f3f4;display:flex;align-items:center;justify-content:center;font-size:24px;
+}
+.gp-thumb img{width:100%;height:100%;object-fit:cover}
+.gp-name{font-size:13.5px;font-weight:500;color:var(--text);margin-bottom:2px;line-height:1.3}
+.gp-addr{font-size:11.5px;color:var(--text3);margin-bottom:4px;font-family:var(--font-body)}
+.gp-rating{display:flex;align-items:center;gap:5px;font-size:12px;font-family:var(--font-body)}
+.gp-rating-num{font-weight:700;color:#e37400}
+.gp-rating-count{color:var(--text3)}
+.gp-open{font-size:11px;font-weight:500;margin-top:3px}
+.gp-open.open{color:#0f9d58}
+.gp-open.closed{color:#ea4335}
+
+/* Sources toggle in sidebar header */
+.sb-source-toggle{
+  display:flex;gap:0;border:1px solid var(--bdr);border-radius:20px;overflow:hidden;
+  margin-top:10px;flex-shrink:0;
+}
+.sst-btn{
+  flex:1;padding:6px 10px;border:none;background:var(--white);
+  font-family:var(--font);font-size:12px;font-weight:500;color:var(--text2);
+  cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.sst-btn:first-child{border-right:1px solid var(--bdr);}
+.sst-btn.on{background:var(--blue);color:#fff;}
+
+/* Google Places detail panel overrides */
+.gp-detail-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#f1f3f4;color:#5f6368;
+  border:1px solid #dadce0;
+  font-size:11px;font-weight:600;padding:3px 10px;border-radius:12px;
+  margin-bottom:7px;
+}
+.gp-attribution{
+  font-size:10px;color:var(--text3);font-family:var(--font-body);
+  display:flex;align-items:center;gap:4px;margin-top:6px;
+}
+
+/* API key setup banner */
+#gp-setup-banner{
+  position:fixed;bottom:44px;left:50%;transform:translateX(-50%);
+  z-index:2000;background:#fff;border:1px solid #dadce0;
+  border-radius:10px;box-shadow:var(--shadow-lg);
+  padding:16px 20px;max-width:420px;width:calc(100% - 32px);
+  display:none;
+}
+#gp-setup-banner.show{display:block}
+.gp-setup-title{font-size:14px;font-weight:500;color:var(--text);margin-bottom:6px}
+.gp-setup-sub{font-size:12px;color:var(--text3);font-family:var(--font-body);line-height:1.6;margin-bottom:10px}
+.gp-key-row{display:flex;gap:8px}
+.gp-key-input{flex:1;font-family:var(--font-body);font-size:13px;background:var(--surface2);border:1px solid var(--bdr2);border-radius:6px;padding:8px 11px;color:var(--text);outline:none}
+.gp-key-input:focus{border-color:var(--blue)}
+.gp-key-btn{padding:0 16px;height:36px;border-radius:6px;border:none;background:var(--blue);color:#fff;font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+
 /* MARKER CLUSTER ANIMATION */
 .lm-enter{animation:pinDrop .35s cubic-bezier(.22,1,.36,1) both}
 @keyframes pinDrop{from{opacity:0;transform:translateY(-12px) scale(.7)}to{opacity:1;transform:translateY(0) scale(1)}}
@@ -716,6 +813,15 @@ body.dark .pin-box{background:var(--surface2);border-color:var(--bdr)}
         <div class="sb-meta" id="sb-meta">0 listings found</div>
       </div>
       <button class="sb-close" onclick="closeSidebar()">✕</button>
+    </div>
+    <div class="sb-source-toggle" id="sb-source-toggle">
+      <button class="sst-btn on" id="sst-qwiky" onclick="switchSource('qwiky')">🏠 Qwiky</button>
+      <button class="sst-btn" id="sst-google" onclick="switchSource('google')">
+        <span style="display:flex;align-items:center;gap:5px;justify-content:center">
+          <span style="font-size:13px">🗺</span>
+          Map Data
+        </span>
+      </button>
     </div>
     <div class="sb-filters" id="sb-filters" style="margin-top:10px;margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px;border-top:1px solid var(--bdr);padding-top:10px"></div>
   </div>
@@ -930,6 +1036,12 @@ body.dark .pin-box{background:var(--surface2);border-color:var(--bdr)}
   <span class="pick-confirm-coords" id="pick-coords-display"></span>
 </div>
 
+<!-- OSM INFO BANNER -->
+<div id="gp-setup-banner">
+  <div class="gp-setup-title">🗺 Free Map Data</div>
+  <div class="gp-setup-sub">Showing PGs, hostels and guesthouses from <b>OpenStreetMap</b> — 100% free, no key needed. Data coverage varies by area. Add missing places using ＋ Post Your Place.</div>
+</div>
+
 <div id="toast"></div>
 
 <script>
@@ -976,6 +1088,8 @@ let editMode=false, editId=null;
 let selType_='pg', selAm=new Set(), selPhotos=[];
 // Pick-mode state
 let isPicking=false, pickedLat=null, pickedLng=null, pickMarker=null;
+// Google Places state
+let googlePlacesMarkers=[], googlePlacesResults=[], showingGooglePlaces=false;
 
 // ══════════════════════════════════════════════════════════
 //  MAP INIT
@@ -1768,6 +1882,308 @@ function locateMe(){
 }
 
 // ══════════════════════════════════════════════════════════
+//  GOOGLE PLACES API INTEGRATION
+// ══════════════════════════════════════════════════════════
+
+// Load saved key from localStorage
+// ══════════════════════════════════════════════════════════
+//  FREE OpenStreetMap / Overpass API  (100% free, no key needed)
+// ══════════════════════════════════════════════════════════
+
+// Source toggle — Qwiky listings vs OSM
+let currentSource='qwiky';
+function switchSource(src){
+  currentSource=src;
+  document.getElementById('sst-qwiky').classList.toggle('on',src==='qwiky');
+  document.getElementById('sst-google').classList.toggle('on',src==='google');
+
+  if(src==='qwiky'){
+    clearGoogleMarkers();
+    leafletMarkers.forEach(m=>{if(!map.hasLayer(m))m.addTo(map);});
+    renderSidebar(currentResults);
+    showingGooglePlaces=false;
+  }else{
+    leafletMarkers.forEach(m=>{if(map.hasLayer(m))map.removeLayer(m);});
+    showingGooglePlaces=true;
+    loadOSMPlaces();
+  }
+}
+
+// Fetch PGs, hostels, guesthouses from OpenStreetMap Overpass API — completely free
+async function loadOSMPlaces(){
+  const bounds=map.getBounds();
+  const s=bounds.getSouth().toFixed(5);
+  const w=bounds.getWest().toFixed(5);
+  const n=bounds.getNorth().toFixed(5);
+  const e=bounds.getEast().toFixed(5);
+
+  // Show loading state
+  document.getElementById('sb-meta').textContent='Searching OpenStreetMap…';
+  document.getElementById('card-list').innerHTML=`
+    <div style="padding:32px 16px;text-align:center">
+      <div style="font-size:36px;margin-bottom:12px">🔍</div>
+      <div style="font-size:14px;font-weight:500;color:var(--text);margin-bottom:6px">Searching free map data…</div>
+      <div style="font-size:12px;color:var(--text3);font-family:var(--font-body)">Finding PGs, hostels & guesthouses in ${currentArea||'this area'}</div>
+    </div>`;
+  clearGoogleMarkers();
+
+  // Overpass query — finds hostels, guesthouses, guest_houses, PGs in the visible map bounds
+  const query=`
+    [out:json][timeout:25];
+    (
+      node["tourism"="hostel"](${s},${w},${n},${e});
+      node["tourism"="guest_house"](${s},${w},${n},${e});
+      node["tourism"="hotel"](${s},${w},${n},${e});
+      node["tourism"="motel"](${s},${w},${n},${e});
+      node["building"="dormitory"](${s},${w},${n},${e});
+      node["amenity"="social_facility"]["social_facility"="lodging"](${s},${w},${n},${e});
+      way["tourism"="hostel"](${s},${w},${n},${e});
+      way["tourism"="guest_house"](${s},${w},${n},${e});
+    );
+    out center tags;
+  `;
+
+  try{
+    const res=await fetch('https://overpass-api.de/api/interpreter',{
+      method:'POST',
+      body:'data='+encodeURIComponent(query),
+    });
+    const json=await res.json();
+    const places=(json.elements||[]).map(normalizeOSMPlace).filter(p=>p.name);
+    googlePlacesResults=places;
+
+    if(!places.length){
+      document.getElementById('sb-meta').textContent='0 places found';
+      document.getElementById('card-list').innerHTML=`
+        <div class="no-results">
+          <div class="no-results-ico">🏘</div>
+          <div class="no-results-title">No data here yet</div>
+          <div class="no-results-sub">OpenStreetMap doesn't have PG/hostel data for this area yet.<br><br>
+            <b>You can add them yourself</b> — click the Qwiky tab and use ＋ Post Your Place.</div>
+        </div>`;
+      return;
+    }
+
+    places.forEach(p=>addOSMMarker(p));
+    renderOSMSidebar(places);
+    document.getElementById('sb-meta').textContent=places.length+' free listings found';
+    toast('Found '+places.length+' places from OpenStreetMap');
+
+  }catch(err){
+    document.getElementById('sb-meta').textContent='Error loading data';
+    document.getElementById('card-list').innerHTML=`
+      <div class="no-results">
+        <div class="no-results-ico">⚠️</div>
+        <div class="no-results-title">Could not load data</div>
+        <div class="no-results-sub">Check your internet connection and try again.</div>
+      </div>`;
+    toast('Failed to load OpenStreetMap data');
+  }
+}
+
+// Convert an OSM node/way into Qwiky-compatible format
+function normalizeOSMPlace(el){
+  const t=el.tags||{};
+  const lat=el.lat||(el.center&&el.center.lat)||0;
+  const lng=el.lon||(el.center&&el.center.lon)||0;
+
+  // Guess type from OSM tags
+  let type='pg';
+  const tourism=(t.tourism||'').toLowerCase();
+  const name=(t.name||t['name:en']||'').toLowerCase();
+  if(tourism==='hostel'||name.includes('hostel')||name.includes('backpacker'))type='hostel';
+  else if(tourism==='guest_house'||tourism==='hotel'||tourism==='motel')type='homestay';
+  else if(name.includes('homestay')||name.includes('home stay'))type='homestay';
+
+  // Build phone from various OSM phone fields
+  const phone=t.phone||t['contact:phone']||t['contact:mobile']||'';
+  const website=t.website||t['contact:website']||'';
+
+  // Build address
+  const addrParts=[t['addr:housenumber'],t['addr:street'],t['addr:city']||t['addr:suburb']].filter(Boolean);
+  const address=addrParts.length?addrParts.join(', '):(t['addr:full']||'');
+
+  return {
+    id:'osm_'+el.id,
+    osmId:el.id,
+    osmType:el.type,
+    name:t.name||t['name:en']||'',
+    type,
+    address,
+    city:t['addr:city']||t['addr:suburb']||'',
+    lat,lng,
+    price:null,
+    desc:t.description||t.note||'',
+    amenities:buildOSMAmenities(t),
+    contact:{name:'',phone},
+    website,
+    photos:[],
+    reviews:[],
+    stars:t.stars?Number(t.stars):null,
+    wheelchair:t.wheelchair,
+    internet:t.internet_access,
+    source:'osm',
+    ownerPin:null,
+  };
+}
+
+// Extract amenities from OSM tags
+function buildOSMAmenities(t){
+  const ams=[];
+  if(t.internet_access==='wlan'||t.internet_access==='yes'||t.wifi==='yes')ams.push('WiFi');
+  if(t.air_conditioning==='yes')ams.push('AC');
+  if(t.parking==='yes'||t['capacity:parking'])ams.push('Parking');
+  if(t.rooms)ams.push(t.rooms+' Rooms');
+  if(t.beds)ams.push(t.beds+' Beds');
+  if(t.wheelchair==='yes')ams.push('Wheelchair');
+  if(t.smoking==='no')ams.push('No Smoking');
+  return ams;
+}
+
+// OSM marker — same grey pill style but with OSM leaf icon
+function addOSMMarker(place){
+  const colors={pg:'#1a73e8',homestay:'#0f9d58',hostel:'#ea4335'};
+  const c=colors[place.type]||'#1a73e8';
+  const shortName=place.name.length>16?place.name.slice(0,14)+'…':place.name;
+  const html=`<div class="gp-marker">
+    <div class="gp-pill" title="${place.name}" style="border-color:${c}20">
+      <div style="width:16px;height:16px;border-radius:50%;background:${c};display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;flex-shrink:0">
+        ${place.type==='pg'?'🏠':place.type==='homestay'?'🏡':'🛏'}
+      </div>
+      <span style="max-width:110px;overflow:hidden;text-overflow:ellipsis;font-size:11.5px">${shortName}</span>
+    </div>
+    <div class="gp-tail"></div>
+    <div class="gp-dot" style="background:${c}"></div>
+  </div>`;
+  const icon=L.divIcon({html,className:'',iconSize:[130,44],iconAnchor:[65,44]});
+  const m=L.marker([place.lat,place.lng],{icon}).addTo(map);
+  m.on('click',()=>openOSMDetail(place));
+  m._isGoogle=true;
+  googlePlacesMarkers.push(m);
+  return m;
+}
+
+function clearGoogleMarkers(){
+  googlePlacesMarkers.forEach(m=>map.removeLayer(m));
+  googlePlacesMarkers=[];
+}
+
+// Sidebar card for OSM places
+function renderOSMSidebar(places){
+  const filtersEl=document.getElementById('sb-filters');
+  filtersEl.innerHTML=[['all','All'],['pg','🏠 PG'],['homestay','🏡 Homestay'],['hostel','🛏 Hostel']]
+    .map(([v,l])=>`<button class="sf ${v==='all'?'on':''}" onclick="filterOSMResult('${v}',this)">${l}</button>`).join('');
+
+  const list=document.getElementById('card-list');
+  list.innerHTML='';
+
+  places.forEach((p,i)=>{
+    const card=document.createElement('div');
+    card.className='gp-card';
+    card.style.animationDelay=(i*.03)+'s';
+    const typeColors={pg:'#1a73e8',homestay:'#0f9d58',hostel:'#ea4335'};
+    card.innerHTML=`
+      <div class="gp-thumb" style="background:#f1f3f4;font-size:28px;display:flex;align-items:center;justify-content:center">
+        ${p.type==='pg'?'🏠':p.type==='homestay'?'🏡':'🛏'}
+      </div>
+      <div style="flex:1;min-width:0">
+        <div class="gp-name">${p.name}</div>
+        <div class="gp-addr">${p.address||'Location on map'}</div>
+        ${p.stars?`<div class="gp-rating"><span class="gp-rating-num">${p.stars}★</span><span class="gp-rating-count">OSM rating</span></div>`:''}
+        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:4px">
+          ${p.amenities.slice(0,2).map(a=>`<span style="font-size:10px;background:#f1f3f4;padding:2px 7px;border-radius:4px;color:#5f6368">${a}</span>`).join('')}
+        </div>
+      </div>
+      <div class="gp-card-badge" style="color:${typeColors[p.type]};background:${typeColors[p.type]}18;border-color:${typeColors[p.type]}30">${p.type.toUpperCase()}</div>`;
+    card.onclick=()=>openOSMDetail(p);
+    list.appendChild(card);
+  });
+
+  // Attribution required by OSM
+  const attr=document.createElement('div');
+  attr.style.cssText='padding:12px 16px;font-size:10.5px;color:var(--text3);font-family:var(--font-body);border-top:1px solid var(--bdr);text-align:center';
+  attr.innerHTML='© <a href="https://www.openstreetmap.org/copyright" target="_blank" style="color:var(--blue)">OpenStreetMap</a> contributors · Data is free & community-edited';
+  list.appendChild(attr);
+}
+
+function filterOSMResult(f,el){
+  document.querySelectorAll('.sf').forEach(s=>s.classList.remove('on'));
+  el.classList.add('on');
+  const filtered=f==='all'?googlePlacesResults:googlePlacesResults.filter(p=>p.type===f);
+  clearGoogleMarkers();
+  filtered.forEach(p=>addOSMMarker(p));
+  renderOSMSidebar(filtered);
+}
+
+// Detail panel for OSM place
+function openOSMDetail(place){
+  detailId='osm_'+place.osmId;
+  galIdx=0;
+
+  // No photos from OSM — show type icon
+  document.getElementById('gal-slides').innerHTML=`
+    <div class="gal-slide" style="background:linear-gradient(135deg,#e8f0fe,#f1f3f4)">
+      <div style="font-size:72px">${place.type==='pg'?'🏠':place.type==='homestay'?'🏡':'🛏'}</div>
+      <div class="gal-ov"></div>
+    </div>`;
+  document.getElementById('gal-dots').innerHTML='';
+  document.getElementById('gal-count').textContent='';
+  document.getElementById('det-edit-btn').style.display='none';
+
+  const typeLabel={pg:'PG / Paying Guest',homestay:'Guest House / Homestay',hostel:'Hostel'};
+  const typeColors={pg:'#1a73e8',homestay:'#0f9d58',hostel:'#ea4335'};
+  const c=typeColors[place.type];
+
+  document.getElementById('det-body').innerHTML=`
+    <div class="det-section">
+      <div class="gp-detail-badge">
+        <div style="width:10px;height:10px;border-radius:50%;background:#48a847"></div>
+        OpenStreetMap · Free Data
+      </div>
+      <div class="det-name">${place.name}</div>
+      <div class="det-addr">📍 ${place.address||'See location on map'}</div>
+      ${place.stars?`<div class="det-rating-row"><span style="font-size:15px;font-weight:700;color:#e37400">${place.stars}</span><span style="color:#fbbc04;font-size:14px">${'★'.repeat(place.stars)}</span><span style="font-size:12px;color:var(--text3)">Stars</span></div>`:''}
+      <div style="display:inline-block;margin-top:8px;padding:4px 12px;border-radius:12px;font-size:12px;font-weight:500;background:${c}18;color:${c};border:1px solid ${c}30">${typeLabel[place.type]||'Accommodation'}</div>
+    </div>
+    <div class="det-actions">
+      ${place.contact.phone?`<button class="det-action" onclick="window.open('tel:${place.contact.phone}')"><div class="det-action-ico">📞</div><div class="det-action-lbl">Call</div></button>`:''}
+      <button class="det-action" onclick="getDirections(${place.lat},${place.lng})"><div class="det-action-ico">🧭</div><div class="det-action-lbl">Directions</div></button>
+      <button class="det-action" onclick="window.open('https://www.openstreetmap.org/${place.osmType}/${place.osmId}','_blank')"><div class="det-action-ico" style="font-size:11px;font-weight:700">OSM</div><div class="det-action-lbl">View on OSM</div></button>
+      <button class="det-action" onclick="share('${place.name}','${place.address}')"><div class="det-action-ico">↗</div><div class="det-action-lbl">Share</div></button>
+    </div>
+    ${place.desc?`<div class="det-section"><div class="sec-title">About</div><div class="det-desc">${place.desc}</div></div>`:''}
+    ${place.amenities.length?`<div class="det-section">
+      <div class="sec-title">Amenities</div>
+      <div class="am-grid">${place.amenities.map(a=>`<div class="am-tag">✓ ${a}</div>`).join('')}</div>
+    </div>`:''}
+    ${place.contact.phone||place.website?`<div class="det-section">
+      <div class="sec-title">Contact</div>
+      <div class="contact-card">
+        <div class="c-av">🏠</div>
+        <div>
+          ${place.contact.phone?`<div class="c-name">${place.contact.phone}</div>`:''}
+          ${place.website?`<div class="c-phone" style="color:var(--blue);cursor:pointer" onclick="window.open('${place.website}','_blank')">${place.website.replace(/https?:\/\/(www\.)?/,'').slice(0,30)}</div>`:''}
+        </div>
+        ${place.contact.phone?`<a href="tel:${place.contact.phone}" class="c-call">📞 Call</a>`:''}
+      </div>
+    </div>`:''}
+    <div class="det-section" style="background:var(--surface2)">
+      <div style="font-size:12px;color:var(--text3);font-family:var(--font-body);line-height:1.7">
+        📝 <b>Know this place?</b> Add more details — phone number, price, photos — by posting it as a Qwiky listing using <b>＋ Post Your Place</b>. Your info will show up for everyone.
+      </div>
+    </div>
+    <div style="height:16px"></div>`;
+
+  document.getElementById('detail-panel').classList.add('open');
+  flyTo(place.lat,place.lng,16);
+}
+
+// Keep backward-compat stubs (HTML still references these)
+function loadGpKey(){}
+function saveGpKey(){toast('No API key needed — Qwiky uses free OpenStreetMap data!');}
+function showGpSteps(){toast('No setup needed — click the Map tab to search free data');}
+
+// ══════════════════════════════════════════════════════════
 //  STATS
 // ══════════════════════════════════════════════════════════
 function updateStats(){
@@ -1807,6 +2223,7 @@ document.addEventListener('click',e=>{
 initMap();
 buildAmPicker();
 updateStats();
+loadGpKey();
 </script>
 </body>
 </html>
