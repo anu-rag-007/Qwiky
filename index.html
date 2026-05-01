@@ -2224,6 +2224,311 @@ initMap();
 buildAmPicker();
 updateStats();
 loadGpKey();
+
+<style>
+  #qwiky-bubble {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #1D9E75;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    z-index: 9999;
+    transition: transform 0.15s;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+  #qwiky-bubble:hover { transform: scale(1.08); }
+  #qwiky-bubble svg { width: 24px; height: 24px; fill: white; }
+  #qwiky-notif {
+    position: absolute;
+    top: -3px; right: -3px;
+    background: #E24B4A;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    font-family: sans-serif;
+  }
+  #qwiky-window {
+    position: fixed;
+    bottom: 88px;
+    right: 24px;
+    width: 340px;
+    max-height: 480px;
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 16px;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 9998;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  }
+  #qwiky-window.open { display: flex; }
+  #qwiky-header {
+    background: #1D9E75;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  #qwiky-header-left { display: flex; align-items: center; gap: 10px; }
+  #qwiky-avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 600; color: white;
+  }
+  #qwiky-header h3 { font-size: 14px; font-weight: 600; color: white; margin: 0; }
+  #qwiky-header p  { font-size: 11px; color: rgba(255,255,255,0.8); margin: 0; }
+  #qwiky-close {
+    background: none; border: none; cursor: pointer;
+    color: rgba(255,255,255,0.8); font-size: 20px; line-height: 1; padding: 0 2px;
+  }
+  #qwiky-close:hover { color: white; }
+  #qwiky-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 220px;
+  }
+  .qwiky-msg {
+    max-width: 85%;
+    font-size: 13px;
+    line-height: 1.55;
+    padding: 9px 12px;
+    border-radius: 12px;
+  }
+  .qwiky-msg.bot {
+    background: #f3f4f6;
+    color: #111;
+    align-self: flex-start;
+    border-bottom-left-radius: 3px;
+  }
+  .qwiky-msg.user {
+    background: #1D9E75;
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 3px;
+  }
+  .qwiky-msg.typing { opacity: 0.55; }
+  #qwiky-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 0 14px 10px;
+  }
+  .qwiky-chip {
+    font-size: 11px;
+    padding: 5px 11px;
+    border: 1px solid #1D9E75;
+    border-radius: 20px;
+    color: #0F6E56;
+    background: white;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: inherit;
+  }
+  .qwiky-chip:hover { background: #E1F5EE; }
+  #qwiky-input-row {
+    display: flex;
+    gap: 8px;
+    padding: 10px 14px;
+    border-top: 1px solid #f0f0f0;
+  }
+  #qwiky-input {
+    flex: 1;
+    height: 36px;
+    font-size: 13px;
+    padding: 0 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+    font-family: inherit;
+    color: #111;
+    background: #fff;
+  }
+  #qwiky-input:focus { border-color: #1D9E75; }
+  #qwiky-send {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: #1D9E75;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  #qwiky-send:hover { background: #0F6E56; }
+  #qwiky-send svg { width: 15px; height: 15px; fill: white; }
+</style>
+
+<!-- Bubble button -->
+<button id="qwiky-bubble" onclick="qwikyToggle()" aria-label="Open Qwiky Assistant">
+  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+  <div id="qwiky-notif">1</div>
+</button>
+
+<!-- Chat window -->
+<div id="qwiky-window">
+  <div id="qwiky-header">
+    <div id="qwiky-header-left">
+      <div id="qwiky-avatar">Q</div>
+      <div>
+        <h3>Qwiky Assistant</h3>
+        <p>Ask me anything about PGs</p>
+      </div>
+    </div>
+    <button id="qwiky-close" onclick="qwikyToggle()">&#x2715;</button>
+  </div>
+  <div id="qwiky-messages"></div>
+  <div id="qwiky-chips"></div>
+  <div id="qwiky-input-row">
+    <input id="qwiky-input" placeholder="Ask about PGs, pricing, areas..." onkeydown="if(event.key==='Enter') qwikySend()" />
+    <button id="qwiky-send" onclick="qwikySend()">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+(function () {
+
+  // =============================================
+  // STEP 1: REPLACE WITH YOUR ANTHROPIC API KEY
+  // Get one free at https://console.anthropic.com
+  // =============================================
+  var API_KEY = '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';
+
+  var SYSTEM_PROMPT = `You are Qwiky Assistant, a helpful AI on the Qwiky website — an Indian platform for finding PGs (paying guest accommodations) and hostels.
+
+You help users with:
+1. Finding PGs/hostels by location and budget — ask for their city and budget if not given
+2. Answering questions about PG facilities, what rent usually includes, what to check before moving in
+3. Helping PG owners list their property — guide them to click the "+ Post Your Place" button on the site
+4. Giving area/locality advice for PG seekers (metro proximity, safety, nearby colleges/offices)
+
+Keep replies short (2-4 sentences), friendly, and practical. Use Indian context — ₹ for prices, refer to Indian cities. Always end with a helpful follow-up question or suggestion to keep the conversation going.`;
+
+  var QUICK_CHIPS = [
+    'PGs under ₹5000 in Noida',
+    'How to list my PG?',
+    'PGs near metro station',
+    'What does rent usually include?'
+  ];
+
+  var FOLLOWUP_CHIPS = [
+    'Search more PGs',
+    'Help me list my PG',
+    'Tell me about the area',
+    'What facilities should I check?'
+  ];
+
+  var history = [];
+  var isOpen = false;
+  var initialized = false;
+
+  window.qwikyToggle = function () {
+    isOpen = !isOpen;
+    document.getElementById('qwiky-window').classList.toggle('open', isOpen);
+    document.getElementById('qwiky-notif').style.display = 'none';
+    if (isOpen && !initialized) { initialized = true; qwikyInit(); }
+    if (isOpen) setTimeout(function () { document.getElementById('qwiky-input').focus(); }, 120);
+  };
+
+  function qwikyInit() {
+    addMsg('bot', 'Hi! I\'m your Qwiky Assistant. I can help you find PGs by location & budget, answer your questions, or help you list your property. What are you looking for today?');
+    showChips(QUICK_CHIPS);
+  }
+
+  function showChips(arr) {
+    var c = document.getElementById('qwiky-chips');
+    c.innerHTML = arr.map(function (q) {
+      return '<button class="qwiky-chip" onclick="qwikyChip(\'' + q.replace(/'/g, "\\'") + '\')">' + q + '</button>';
+    }).join('');
+  }
+
+  window.qwikyChip = function (text) {
+    document.getElementById('qwiky-chips').innerHTML = '';
+    addMsg('user', text);
+    callAI(text);
+  };
+
+  window.qwikySend = function () {
+    var inp = document.getElementById('qwiky-input');
+    var text = inp.value.trim();
+    if (!text) return;
+    inp.value = '';
+    document.getElementById('qwiky-chips').innerHTML = '';
+    addMsg('user', text);
+    callAI(text);
+  };
+
+  function addMsg(role, text) {
+    var m = document.getElementById('qwiky-messages');
+    var d = document.createElement('div');
+    d.className = 'qwiky-msg ' + role;
+    d.textContent = text;
+    m.appendChild(d);
+    m.scrollTop = m.scrollHeight;
+    return d;
+  }
+
+  function callAI(userText) {
+    history.push({ role: 'user', content: userText });
+    var typing = addMsg('bot', '...');
+    typing.classList.add('typing');
+
+    fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 400,
+        system: SYSTEM_PROMPT,
+        messages: history
+      })
+    })
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      var reply = (data.content && data.content[0] && data.content[0].text)
+        ? data.content[0].text
+        : 'Sorry, I could not get a response right now. Please try again!';
+      history.push({ role: 'assistant', content: reply });
+      typing.textContent = reply;
+      typing.classList.remove('typing');
+      document.getElementById('qwiky-messages').scrollTop = 99999;
+      showChips(FOLLOWUP_CHIPS);
+    })
+    .catch(function () {
+      typing.textContent = 'Something went wrong. Please try again!';
+      typing.classList.remove('typing');
+    });
+  }
+
+})();
 </script>
 </body>
 </html>
